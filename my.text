@@ -1,0 +1,38 @@
+const http = require('http');
+var axios = require("axios").default;
+const hostname = '127.0.0.1';
+const port = 3000;
+
+
+const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello World g');
+    console.log(req.params);
+
+    var options = {
+    method: 'GET',
+    url: 'https://dictionary-by-api-ninjas.p.rapidapi.com/v1/dictionary',
+    params: {word: 'mind'},
+    headers: {
+    'X-RapidAPI-Key': '94aeb0f060msh6e7a81b5cb466cep1e1027jsn99c25af29d13',
+    'X-RapidAPI-Host': 'dictionary-by-api-ninjas.p.rapidapi.com'
+    }
+    };
+
+    axios.request(options).then(function (response) {
+    console.log(response.data);
+    }).catch(function (error) {
+    console.error(error);
+    });
+    
+});
+
+server.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+  });
+
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
